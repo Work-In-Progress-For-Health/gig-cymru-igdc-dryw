@@ -1,0 +1,41 @@
+#!/bin/sh
+set -euf
+
+export App=DHCW360
+export app=dhcw360
+export Dom=Accounts
+export dom=accounts
+export Resource=User
+export resource=user
+export Resources=Users
+export resources=users
+
+mix ash.gen.resource \
+    $App.$Dom.$Resource \
+    --conflicts replace \
+    --default-actions create,read,update,destroy \
+    --extend postgres \
+    --uuid-primary-key id \
+    --attribute email:ci_string:public:required \
+    --attribute primary_manager_email_address:string \
+    --attribute secondary_managers_email_addresses:string \
+    --attribute direct_reports_email_addresses:string \
+    --attribute peers_email_addresses:string \
+    --attribute others_email_addresses:string \
+
+mix ash.codegen create_$resources
+mix ash.migrate
+
+mkdir -p test/$app/$dom
+touch test/$app/$dom/$resource.ex
+
+mkdir -p lib/${app}_web/live/$resources
+touch lib/${app}_web/live/$resources/show_live.ex
+
+mkdir -p test/${app}_web/live/$resources
+touch test/${app}_web/live/$resources/show_test.ex
+
+cat << EOF
+Edit file lib/${app}_web/router.ex to add live routes:
+live "/$resources/:id", $Resources.ShowLive
+EOF

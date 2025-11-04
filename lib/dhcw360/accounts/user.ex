@@ -38,8 +38,6 @@ defmodule DHCW360.Accounts.User do
   end
 
   actions do
-    defaults [:read]
-
     read :get_by_subject do
       description "Get a user by the subject claim in a JWT"
       argument :subject, :string, allow_nil?: false
@@ -79,6 +77,8 @@ defmodule DHCW360.Accounts.User do
 
       run AshAuthentication.Strategy.MagicLink.Request
     end
+
+    defaults [:read, :destroy, create: [:email], update: [:email]]
   end
 
   policies do
@@ -91,9 +91,15 @@ defmodule DHCW360.Accounts.User do
     uuid_primary_key :id
 
     attribute :email, :ci_string do
-      allow_nil? false
       public? true
+      allow_nil? false
     end
+
+    attribute :primary_manager_email_address, :string
+    attribute :secondary_managers_email_addresses, :string
+    attribute :direct_reports_email_addresses, :string
+    attribute :peers_email_addresses, :string
+    attribute :others_email_addresses, :string
   end
 
   identities do
