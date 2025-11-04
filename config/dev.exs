@@ -65,7 +65,7 @@ config :dhcw360, DHCW360Web.Endpoint,
   ]
 
 # Enable dev routes for dashboard and mailbox
-config :dhcw360, dev_routes: true
+config :dhcw360, dev_routes: true, token_signing_secret: "DkO4Zxx3aqzRWlrGQgZh/zeP+ReS4Upm"
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :default_formatter, format: "[$level] $message\n"

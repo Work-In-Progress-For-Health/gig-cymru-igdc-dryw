@@ -1,4 +1,6 @@
 import Config
+config :dhcw360, token_signing_secret: "RldmRYnaDrU4wN8nS42h33jxw2cFAFWc"
+config :bcrypt_elixir, log_rounds: 1
 config :ash, policies: [show_policy_breakdowns?: true], disable_async?: true
 
 # Configure your database

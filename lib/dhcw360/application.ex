@@ -15,7 +15,8 @@ defmodule DHCW360.Application do
       # Start a worker by calling: DHCW360.Worker.start_link(arg)
       # {DHCW360.Worker, arg},
       # Start to serve requests, typically the last entry
-      DHCW360Web.Endpoint
+      DHCW360Web.Endpoint,
+      {AshAuthentication.Supervisor, [otp_app: :dhcw360]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

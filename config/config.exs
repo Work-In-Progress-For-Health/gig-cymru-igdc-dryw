@@ -26,6 +26,9 @@ config :spark,
     remove_parens?: true,
     "Ash.Resource": [
       section_order: [
+        :authentication,
+        :token,
+        :user_identity,
         :postgres,
         :resource,
         :code_interface,
@@ -49,7 +52,8 @@ config :spark,
 config :dhcw360,
   namespace: DHCW360,
   ecto_repos: [DHCW360.Repo],
-  generators: [timestamp_type: :utc_datetime]
+  generators: [timestamp_type: :utc_datetime],
+  ash_domains: [DHCW360.Accounts]
 
 # Configures the endpoint
 config :dhcw360, DHCW360Web.Endpoint,
