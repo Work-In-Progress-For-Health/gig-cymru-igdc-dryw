@@ -1,0 +1,43 @@
+#!/bin/sh
+set -euf
+
+export App=DHCW360
+export app=dhcw360
+export Dom=Accounts
+export dom=accounts
+export Resource=Item
+export resource=item
+export Resources=Items
+export resources=items
+
+mix ash.gen.resource \
+    $App.$Dom.$Resource \
+    --conflicts replace \
+    --default-actions create,read,update,destroy \
+    --extend postgres \
+    --uuid-primary-key id \
+    --relationship belongs_to:reviewer:$App.$Dom.User \
+    --relationship belongs_to:reviewee:$App.$Dom.User \
+
+mix ash.codegen create_$resources
+mix ash.migrate
+
+mkdir -p test/$app/$dom
+touch test/$app/$dom/$resource.ex
+
+mkdir -p lib/${app}_web/live/$resources
+touch lib/${app}_web/live/$resources/form_live.ex
+touch lib/${app}_web/live/$resources/index_live.ex
+touch lib/${app}_web/live/$resources/show_live.ex
+
+mkdir -p test/${app}_web/live/$resources
+touch test/${app}_web/live/$resources/form_live.ex
+touch test/${app}_web/live/$resources/index_live.ex
+touch test/${app}_web/live/$resources/show_live.ex
+
+cat << EOF
+Edit file lib/${app}_web/router.ex to add live routes:
+live "/$resources", $Resources.IndexLive
+live "/$resources/:id", $Resources.ShowLive
+live "/$resources/:id/edit", $Resources.FormLive, :edit
+EOF

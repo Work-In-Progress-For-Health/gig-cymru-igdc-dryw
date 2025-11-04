@@ -5,5 +5,6 @@ defmodule DHCW360.Accounts do
   resources do
     resource DHCW360.Accounts.Token
     resource DHCW360.Accounts.User
+    resource DHCW360.Accounts.Item
   end
 end
