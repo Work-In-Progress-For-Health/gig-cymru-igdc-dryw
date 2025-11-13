@@ -33,7 +33,7 @@ defmodule DrywWeb.GigCymru.Igdc.Pod360.Requests.ShowLive do
 
       <p>From: {@reviewee.email}</p>
 
-      <p>To: {Dryw.Accounts.User.emails(@reviewee)}</p>
+      <p>To: {Dryw.Accounts.User.emails(@reviewee) |> Enum.join(", ")}</p>
 
       <p>As part of my continual personal development I am about to take part in the DHCW Values-based 360-degree feedback process, and am writing to ask you whether you would be willing to complete a questionnaire on my behalf.</p>
 

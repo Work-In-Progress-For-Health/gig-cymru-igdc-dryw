@@ -142,8 +142,7 @@ defmodule DrywWeb.Users.FormLive do
       {:ok, x} ->
         {:noreply,
          socket
-          |> put_flash(:info, "Saved.")
-          |> push_navigate(to: ~p"/users/#{x.id}")
+          |> push_navigate(to: ~p"/gig-cymru/igdc/pod360/requests/#{x.email}")
         }
 
       {:error, form} ->

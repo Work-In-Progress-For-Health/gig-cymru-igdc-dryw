@@ -44,6 +44,42 @@ defmodule DrywWeb.GigCymru.Igdc.Pod360.Reviews.FormLive do
   Render.
   """
   def render(assigns) do
+
+    assigns =
+      assign(assigns,
+        :sections,
+        [
+          [:collaboration, "Collaboration", "Examples: Teamwork • Supporting and challenging • Listening and valuing each other • Reflecting • Continuous learning"],
+          [:innovation, "Innovation", "Examples: Creative thinking • Courageous • Transformational • Embracing change • Ambitious"],
+          [:inclusive, "Inclusive", "Examples: Diversity • Equality • Respect • Fairness • Equity • Celebrate success and achievements"],
+          [:excellence, "Excellence", "Examples: Empowerment • Quality • Continuous improvement • Drive for results • Pride in what we do • Accountability"],
+          [:compassion, "Compassion", "Examples: Dignity • Kindness • Empathy • Personal responsibility • Trust"]
+        ]
+      )
+
+    assigns =
+      assign(assigns,
+        :options,
+        [
+          {"Unknown", ""},
+          {"█ 0%", 0},
+          {"███ 20%", 20},
+          {"█████ 40%", 40},
+          {"███████ 60%", 60},
+          {"█████████ 80%", 80},
+          {"███████████ 100%", 100}
+        ]
+      )
+
+    # <.radio_group field={@form[:innovation]}>
+    #   <:radio value="1">Rarely = 10% of the time or less</:radio>
+    #   <:radio value="2">Seldom = 30% of the time</:radio>
+    #   <:radio value="3">Occasionally = 50% of the time</:radio>
+    #   <:radio value="4">Often = 70% of the time</:radio>
+    #   <:radio value="5">Frequently = 90% of the time or more</:radio>
+    #   <:radio value="0">No opportunity to observe</:radio>
+    # </.radio_group>
+
     ~H"""
     <Layouts.app {assigns}>
       <.header>
@@ -60,11 +96,9 @@ defmodule DrywWeb.GigCymru.Igdc.Pod360.Reviews.FormLive do
       >
 
         <style>
-        p {
-        font-size: 1em;
-        }
-        li {
-        }
+          p {
+            font-size: 1em;
+          }
         </style>
 
         <ul class="pb-6">
@@ -72,80 +106,22 @@ defmodule DrywWeb.GigCymru.Igdc.Pod360.Reviews.FormLive do
           <li>To: {@reviewee.email}</li>
         </ul>
 
-        <.section_headline_paragraph
-          id={:section_collaboration}
-          headline="Collaboration"
-          paragraph="Examples: Teamwork • Supporting and challenging • Listening and valuing each other • Reflecting • Continuous learning"
-        >
-          <.radio_group field={@form[:collaboration]}>
-            <:radio value="1">Rarely = 10% of the time or less</:radio>
-            <:radio value="2">Seldom = 30% of the time</:radio>
-            <:radio value="3">Occasionally = 50% of the time</:radio>
-            <:radio value="4">Often = 70% of the time</:radio>
-            <:radio value="5">Frequently = 90% of the time or more</:radio>
-            <:radio value="0">No opportunity to observe</:radio>
-          </.radio_group>
-        </.section_headline_paragraph>
-
-        <.section_headline_paragraph
-          id={:section_innovation}
-          headline="Innovation"
-          paragraph="Examples: Creative thinking • Courageous • Transformational • Embracing change • Ambitious"
-        >
-          <.radio_group field={@form[:innovation]}>
-            <:radio value="1">Rarely = 10% of the time or less</:radio>
-            <:radio value="2">Seldom = 30% of the time</:radio>
-            <:radio value="3">Occasionally = 50% of the time</:radio>
-            <:radio value="4">Often = 70% of the time</:radio>
-            <:radio value="5">Frequently = 90% of the time or more</:radio>
-            <:radio value="0">No opportunity to observe</:radio>
-          </.radio_group>
-        </.section_headline_paragraph>
-
-        <.section_headline_paragraph
-          id={:section_inclusive}
-          headline="Inclusive"
-          paragraph="Examples: Diversity • Equality • Respect • Fairness • Equity • Celebrate success and achievements"
-        >
-          <.radio_group field={@form[:inclusive]}>
-            <:radio value="1">Rarely = 10% of the time or less</:radio>
-            <:radio value="2">Seldom = 30% of the time</:radio>
-            <:radio value="3">Occasionally = 50% of the time</:radio>
-            <:radio value="4">Often = 70% of the time</:radio>
-            <:radio value="5">Frequently = 90% of the time or more</:radio>
-            <:radio value="0">No opportunity to observe</:radio>
-          </.radio_group>
-        </.section_headline_paragraph>
-
-        <.section_headline_paragraph
-          id={:section_excellence}
-          headline="Excellence"
-          paragraph="Examples: Empowerment • Quality • Continuous improvement • Drive for results • Pride in what we do • Accountability"
-        >
-          <.radio_group field={@form[:excellence]}>
-            <:radio value="1">Rarely = 10% of the time or less</:radio>
-            <:radio value="2">Seldom = 30% of the time</:radio>
-            <:radio value="3">Occasionally = 50% of the time</:radio>
-            <:radio value="4">Often = 70% of the time</:radio>
-            <:radio value="5">Frequently = 90% of the time or more</:radio>
-            <:radio value="0">No opportunity to observe</:radio>
-          </.radio_group>
-        </.section_headline_paragraph>
-
-        <.section_headline_paragraph
-          id={:section_compassion}
-          headline="Compassion"
-          paragraph="Examples: Dignity • Kindness • Empathy • Personal responsibility • Trust"
-        >
-          <.radio_group field={@form[:compassion]}>
-            <:radio value="1">Rarely = 10% of the time or less</:radio>
-            <:radio value="2">Seldom = 30% of the time</:radio>
-            <:radio value="3">Occasionally = 50% of the time</:radio>
-            <:radio value="4">Often = 70% of the time</:radio>
-            <:radio value="5">Frequently = 90% of the time or more</:radio>
-            <:radio value="0">No opportunity to observe</:radio>
-          </.radio_group>
-        </.section_headline_paragraph>
+        <%= for [id, headline, paragraph] <- @sections do %>
+          <section
+            id={id}
+            class="pb-4"
+            phx-update="ignore"
+          >
+            <h2 class="pb-4"><%= headline %></h2>
+            <p class="pb-4"><%= paragraph %></p>
+            <.input
+              field={@form[id]}
+              type="select"
+              label="How much of the time does the person do this?"
+              options={@options}
+            />
+          </section>
+        <% end %>
 
         <!-- TODO: validate that the person has submitted enough information -->
         <div class="mt-2 mb-8">
