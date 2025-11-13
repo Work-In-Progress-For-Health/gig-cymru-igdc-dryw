@@ -140,22 +140,10 @@ defmodule DrywWeb.Users.FormLive do
     actor = socket.assigns.current_user
     case AshPhoenix.Form.submit(socket.assigns.form, params: form_data, actor: actor) do
       {:ok, x} ->
-        emails =
-          [
-            x.primary_manager_email_address,
-            x.secondary_managers_email_addresses,
-            x.direct_reports_email_addresses,
-            x.peers_email_addresses,
-            x.others_email_addresses,
-          ]
-          |> Enum.reject(&is_nil/1)
-          |> Enum.join(" ")
-          |> String.split(~r/[,\s]+/)
-          |> Enum.join(", ")
         {:noreply,
          socket
-          |> put_flash(:info, "Saved. You can now email these people as you like: #{emails}.\n\nPlease review me at https://example.com/gig-cymru/igdc/pod/360/reviews/new/#{x.email}")
-         # |> push_navigate(to: ~p"/")
+          |> put_flash(:info, "Saved.")
+          |> push_navigate(to: ~p"/users/#{x.id}")
         }
 
       {:error, form} ->

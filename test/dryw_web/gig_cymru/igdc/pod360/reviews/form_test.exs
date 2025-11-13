@@ -16,7 +16,7 @@ defmodule DrywWeb.GigCymru.Igdc.Pod360.Reviews.Test do
   end
 
   test "new", %{conn: conn, user: user} do
-    conn = get(conn, ~p"/gig-cymru/igdc/pod/360/reviews/new/#{user.email}")
+    conn = get(conn, ~p"/gig-cymru/igdc/pod360/reviews/new/#{user.email}")
     response = html_response(conn, 200)
 
     assert response =~ "Collaboration"
@@ -28,7 +28,7 @@ defmodule DrywWeb.GigCymru.Igdc.Pod360.Reviews.Test do
   end
 
   test "new…", %{conn: conn, user: user} do
-    {:ok, lv, _html} = live(conn, ~p"/gig-cymru/igdc/pod/360/reviews/new/#{user.email}")
+    {:ok, lv, _html} = live(conn, ~p"/gig-cymru/igdc/pod360/reviews/new/#{user.email}")
     x = X.fab!
     result =
       lv

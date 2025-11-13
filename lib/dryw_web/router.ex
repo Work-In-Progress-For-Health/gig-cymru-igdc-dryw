@@ -62,8 +62,9 @@ defmodule DrywWeb.Router do
 
     ash_authentication_live_session :session_name, on_mount: {DrywWeb.LiveUserAuth, :live_user_required} do
       live "/users/:id/edit", Users.FormLive, :update
-      live "/gig-cymru/igdc/pod/360/reviews/new/:reviewee", GigCymru.Igdc.Pod360.Reviews.FormLive, :new
-    end
+      live "/users/:id", Users.ShowLive
+      live "/gig-cymru/igdc/pod360/reviews/new/:reviewee", GigCymru.Igdc.Pod360.Reviews.FormLive, :new
+     end
 
   end
 

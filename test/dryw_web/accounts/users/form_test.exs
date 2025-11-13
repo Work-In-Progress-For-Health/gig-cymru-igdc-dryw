@@ -2,7 +2,7 @@ defmodule DrywWeb.Users.Test do
   import Phoenix.LiveViewTest
   use DrywWeb.ConnCase
   use DrywWeb.AuthCase
-  alias Dryw.Accounts.User,  as: X
+  alias Dryw.Accounts.User, as: X
 
   setup %{conn: conn} do
     user = my_user!()
@@ -42,7 +42,7 @@ defmodule DrywWeb.Users.Test do
       |> render_submit()
     case result do
       {:error, {:live_redirect, %{to: path}}} ->
-        assert path == "/traits"
+        assert path == ~p"/users/#{user.id}"
       html when is_binary(html) ->
         assert html =~ "Your primary manager" #TODO
       other ->

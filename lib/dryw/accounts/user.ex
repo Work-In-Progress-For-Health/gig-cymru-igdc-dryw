@@ -144,4 +144,17 @@ defmodule Dryw.Accounts.User do
     identity :unique_email, [:email]
   end
 
+  def emails(user) do
+    [
+      user.primary_manager_email_address,
+      user.secondary_managers_email_addresses,
+      user.direct_reports_email_addresses,
+      user.peers_email_addresses,
+      user.others_email_addresses,
+    ]
+    |> Enum.reject(&is_nil/1)
+    |> Enum.join(" ")
+    |> String.split(~r/[,\s]+/)
+  end
+
 end
