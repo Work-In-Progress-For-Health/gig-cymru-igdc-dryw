@@ -1,8 +1,6 @@
 defmodule DrywWeb.GigCymru.Igdc.Pod360.Reviews.FormLive do
   use DrywWeb, :live_view
   alias DrywWeb.Layouts
-  import DrywWeb.Components.SectionHeadlineParagraph
-  import DrywWeb.Components.Radio
   alias Dryw.GigCymru.Igdc.Pod360.Review, as: X
 
   require Logger
@@ -71,19 +69,10 @@ defmodule DrywWeb.GigCymru.Igdc.Pod360.Reviews.FormLive do
         ]
       )
 
-    # <.radio_group field={@form[:innovation]}>
-    #   <:radio value="1">Rarely = 10% of the time or less</:radio>
-    #   <:radio value="2">Seldom = 30% of the time</:radio>
-    #   <:radio value="3">Occasionally = 50% of the time</:radio>
-    #   <:radio value="4">Often = 70% of the time</:radio>
-    #   <:radio value="5">Frequently = 90% of the time or more</:radio>
-    #   <:radio value="0">No opportunity to observe</:radio>
-    # </.radio_group>
-
     ~H"""
     <Layouts.app {assigns}>
       <.header>
-        {@page_title}
+        Feedback for {@reviewee.email}
       </.header>
 
       <.form
@@ -101,11 +90,6 @@ defmodule DrywWeb.GigCymru.Igdc.Pod360.Reviews.FormLive do
           }
         </style>
 
-        <ul class="pb-6">
-          <li>From: {@current_user.email}</li>
-          <li>To: {@reviewee.email}</li>
-        </ul>
-
         <%= for [id, headline, paragraph] <- @sections do %>
           <section
             id={id}
@@ -115,7 +99,7 @@ defmodule DrywWeb.GigCymru.Igdc.Pod360.Reviews.FormLive do
             <h2 class="pb-4"><%= headline %></h2>
             <p class="pb-4"><%= paragraph %></p>
             <.input
-              field={@form[id]}
+              field={form[id]}
               type="select"
               label="How much of the time does the person do this?"
               options={@options}

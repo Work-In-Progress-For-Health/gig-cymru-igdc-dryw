@@ -144,13 +144,23 @@ defmodule DrywWeb.Users.FormLive do
          socket
           |> push_navigate(to: ~p"/gig-cymru/igdc/pod360/requests/#{x.email}")
         }
-
       {:error, form} ->
-        IO.inspect(form, label: "Save error")
+        errors = AshPhoenix.Form.errors(form)
         {:noreply,
-         socket
-         |> put_flash(:error, "Save failed.")
-         |> assign(:form, form)}
+        socket
+        |> put_flash(:error, format_errors(errors))
+        |> assign(:form, form)}
     end
   end
+
+  defp format_errors(errors) when errors == [] do
+    "Save failed."
+  end
+
+  defp format_errors(errors) do
+    errors
+    |> Enum.map(fn {field, message} -> "#{field}: #{message}" end)
+    |> Enum.join(", ")
+  end
+
 end

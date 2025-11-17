@@ -10,11 +10,11 @@ defmodule Dryw.GigCymru.Igdc.Pod360.Review.Fab do
       def fab_map(map \\ %{}) do
         Map.merge(
           %{
-            collaboration: 1,
-            innovation: 2,
-            inclusive: 3,
-            excellence: 4,
-            compassion: 5,
+            collaboration: 20,
+            innovation: 40,
+            inclusive: 60,
+            excellence: 80,
+            compassion: 100,
           },
           map
         )
